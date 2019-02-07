@@ -26,10 +26,9 @@ In project directory:
 
 $ mkdir tmp && cd tmp
 $ wget https://raw.githubusercontent.com/hasura/graphql-engine/master/install-manifests/docker-compose/docker-compose.yaml
+$ # set HASURA_GRAPHQL_ENABLE_CONSOLE="false"
 $ docker-compose up -d
 ```
-
-You can visit the Hasura console at `http://localhost:8080/console`.
 
 3. Apply migrations locally
 
@@ -38,6 +37,15 @@ In project directory;
 
 $ cd hasura
 $ hasura migrate apply
+```
+
+4. Start the console
+
+```
+In project directory:
+
+$ cd hasura
+$ hasura console
 ```
 
 ## CI/CD with CircleCI
