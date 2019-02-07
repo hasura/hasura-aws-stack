@@ -1,5 +1,13 @@
 # hasura-aws-stack
 
+## Stack
+
+- Hasura on ECS Fargate (auto-scale)
+- RDS Postgres
+- Lambdas for remote schemas and event triggers
+- Docker for local dev
+- CircleCI for CI/CD
+
 ## Setup Hasura on Fargate
 
 1. Go to ECS in AWS Console.
