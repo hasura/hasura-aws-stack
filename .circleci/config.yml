@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_dev:
     working_directory: ~/project
     docker:
       - image: buildpack-deps:xenial
@@ -18,8 +18,55 @@ jobs:
                hasura metadata apply --project hasura --endpoint $HASURA_DEV_ENDPOINT --access-key $HASURA_DEV_ACCESS_KEY
             fi
             echo "Finished"
+  build_stg:
+    working_directory: ~/project
+    docker:
+      - image: buildpack-deps:xenial
+    steps:
+      - checkout
+      - run:
+          name: Apply migrations
+          command: |
+            echo "Installing hasura-cli"
+            curl -L https://github.com/hasura/graphql-engine/raw/master/cli/get.sh | bash
+            echo "Applying migrations"
+            hasura migrate apply --project hasura --endpoint $HASURA_STG_ENDPOINT --access-key $HASURA_STG_ACCESS_KEY
+            if [ -f hasura/migrations/metadata.yaml ]; then
+               echo "Applying metadata"
+               hasura metadata apply --project hasura --endpoint $HASURA_STG_ENDPOINT --access-key $HASURA_STG_ACCESS_KEY
+            fi
+            echo "Finished"
+  build_prod:
+    working_directory: ~/project
+    docker:
+      - image: buildpack-deps:xenial
+    steps:
+      - checkout
+      - run:
+          name: Apply migrations
+          command: |
+            echo "Installing hasura-cli"
+            curl -L https://github.com/hasura/graphql-engine/raw/master/cli/get.sh | bash
+            echo "Applying migrations"
+            hasura migrate apply --project hasura --endpoint $HASURA_PROD_ENDPOINT --access-key $HASURA_PROD_ACCESS_KEY
+            if [ -f hasura/migrations/metadata.yaml ]; then
+               echo "Applying metadata"
+               hasura metadata apply --project hasura --endpoint $HASURA_PROD_ENDPOINT --access-key $HASURA_PROD_ACCESS_KEY
+            fi
+            echo "Finished"
 workflows:
   version: 2
   full:
     jobs:
-      - build
+      - build_dev:
+          filters:
+            branches:
+              only: master
+      - build_stg:
+          filters:
+            branches:
+              only: staging
+      - build_prod:
+          filters:
+            branches:
+              only: prod
