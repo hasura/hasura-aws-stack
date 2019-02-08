@@ -92,6 +92,42 @@ $ docker-compose up -d
 
 7. Add event trigger through Hasura console using the above environment variable as `WEBHOOK_URL`.
 
+### Local Dev - Remote Schemas
+
+1. Create a new folder in `remote-schemas` folder:
+
+```
+In project directory:
+
+$ cd remote-schemas
+$ mkdir account-schema
+```
+
+2. Write your graphql server in `account-schema/index.js`. Make sure you export one function. Ref: [account](remote-schemas/account-schema/index.js)
+
+3. Start the local server:
+
+```
+In project directory:
+
+$ cd remote-schemas/account-schema
+$ node index.js
+```
+
+5. Add remote schema URL as environment variable in `local/remote-schema.env`. Ref: [remote-schemas.env](local/remote-schemas.env)
+
+6. Restart Hasura (for refreshing environment variables):
+
+```
+In project directory:
+
+$ cd local
+$ docker-compose down
+$ docker-compose up -d
+```
+
+7. Add remote schema through Hasura console using the above environment variable as `GraphQL Server URL`.
+
 ## CI/CD with CircleCI
 
 We want to keep 3 environments in the cloud:
