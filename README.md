@@ -103,9 +103,11 @@ $ cd remote-schemas
 $ mkdir account-schema
 ```
 
-2. Write your graphql server in `account-schema/index.js`. Make sure you export the typedefs and resolvers. Ref: [account](remote-schemas/account-schema/index.js)
+2. Write your graphql functions in `account-schema/index.js`. Make sure you export the typedefs and resolvers. Ref: [account](remote-schemas/account-schema/index.js)
 
-3. Start the local development API server:
+3. Add corresponding server setup in local development API server. Ref: [localDevelopment](local/localDevelopment.js)
+
+4. Start the local development API server:
 
 ```
 In project directory:
