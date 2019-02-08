@@ -1,0 +1,3 @@
+- args:
+    name: echo
+  type: delete_event_trigger

@@ -1,0 +1,20 @@
+- args:
+    delete:
+      columns:
+      - id
+      - name
+    headers: []
+    insert:
+      columns:
+      - id
+      - name
+    name: echo
+    table:
+      name: user
+      schema: public
+    update:
+      columns:
+      - id
+      - name
+    webhook_from_env: EVENT_TRIGGER_ECHO_URL
+  type: create_event_trigger
