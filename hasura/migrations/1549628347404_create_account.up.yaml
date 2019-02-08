@@ -1,0 +1,13 @@
+- args:
+    cascade: false
+    sql: create table account(id serial primary key, name text, balance integer);
+      create table min_amount(amount integer); insert into min_amount values (100)
+  type: run_sql
+- args:
+    name: account
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: min_amount
+    schema: public
+  type: add_existing_table_or_view

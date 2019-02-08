@@ -17,5 +17,6 @@ services:
       # HASURA_GRAPHQL_ACCESS_KEY: mysecretaccesskey
     env_file:
       - event-triggers.env
+      - remote-schemas.env
 
 
