@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server');
+const gql = require('graphql-tag');
 const Sequelize = require("sequelize");
 const {Account, MinAmount, sequelize} = require('./models.js');
 
@@ -54,12 +54,6 @@ const resolvers = {
         }
     }
 };
-
-const serverLocal = new ApolloServer({ typeDefs, resolvers });
-
-serverLocal.listen().then(({ url }) => {
-    console.log(`Server ready at ${url}`);
-});
 
 exports.typeDefs = typeDefs;
 exports.resolvers = resolvers;
