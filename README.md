@@ -32,9 +32,7 @@ $ # You are now in the project directory
 ```
 In project directory:
 
-$ mkdir tmp && cd tmp
-$ wget https://raw.githubusercontent.com/hasura/graphql-engine/master/install-manifests/docker-compose/docker-compose.yaml
-$ # set HASURA_GRAPHQL_ENABLE_CONSOLE="false"
+$ cd local
 $ docker-compose up -d
 ```
 
@@ -55,6 +53,44 @@ In project directory:
 $ cd hasura
 $ hasura console
 ```
+
+### Local Dev - Event Triggers
+
+1. Create a new folder in `event-triggers` folder:
+
+```
+In project directory:
+
+$ cd event-triggers
+$ mkdir echo
+```
+
+2. Write your function in `echo/index.js`. Make sure you export one function. Ref: [echo](event-triggers/echo/index.js)
+
+3. Add corresponding endpoint in local development API server. Ref: [localDevelopment](local/localDevelopment.js)
+
+4. Start the local development API server:
+
+```
+In project directory:
+
+$ cd local
+$ node localDevelopment.js
+```
+
+5. Add event trigger URL as environment variable in `local/event-triggers.env`. Ref: [event-triggers.env](local/event-triggers.env)
+
+6. Restart Hasura (for refreshing environment variables):
+
+```
+In project directory:
+
+$ cd local
+$ docker-compose down
+$ docker-compose up -d
+```
+
+7. Add event trigger through Hasura console using the above environment variable as `WEBHOOK_URL`.
 
 ## CI/CD with CircleCI
 
