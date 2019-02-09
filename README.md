@@ -36,10 +36,14 @@ $ cd local
 $ docker-compose up -d
 ```
 
-3. Start local development API server:
+3. Start local development API server ( first make sure all dependencies are met for local API server):
 
 ```
 In project directory:
+
+$ # install dependencies for local API server for e.g. all remote schemas and event triggers
+$ # cd remote-schemas/account-schema
+$ # npm i
 
 $ cd local
 $ node localDevelopment.js
@@ -125,7 +129,7 @@ $ cd local
 $ node localDevelopment.js
 ```
 
-5. Add remote schema URL as environment variable in `local/remote-schema.env`. Ref: [remote-schemas.env](local/remote-schemas.env)
+5. Add remote schema URL as environment variable in `local/remote-schemas.env`. Ref: [remote-schemas.env](local/remote-schemas.env)
 
 6. Restart Hasura (for refreshing environment variables):
 
