@@ -36,7 +36,16 @@ $ cd local
 $ docker-compose up -d
 ```
 
-3. Apply migrations locally
+3. Start local development API server:
+
+```
+In project directory:
+
+$ cd local
+$ node localDevelopment.js
+```
+
+4. Apply migrations locally
 
 ```
 In project directory;
@@ -45,7 +54,7 @@ $ cd hasura
 $ hasura migrate apply
 ```
 
-4. Start the console
+5. Start the console
 
 ```
 In project directory:
