@@ -57,5 +57,10 @@ then
     aws apigateway put-integration --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method ANY --type AWS_PROXY --integration-http-method ANY --uri arn:aws:apigateway:$AWS_REGION:lambda:path/2015-03-31/functions/$functionArn:$GIT_SHA/invocations
 fi
 aws apigateway update-integration --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method ANY --patch-operations "[ {\"op\" : \"replace\",\"path\" : \"/uri\",\"value\" : \"arn:aws:apigateway:$AWS_REGION:lambda:path/2015-03-31/functions/$functionArn:$GIT_SHA/invocations\"} ]"
+echo "Delete Permission if exists"
+REMOVE_PERMISSION_EXIT_CODE=0
+STATEMENT_ID="${GIT_SHA}_${current_build}"
+aws lambda remove-permission --function-name arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$current_build:$GIT_SHA --statement-id $STATEMENT_ID || REMOVE_PERMISSION_EXIT_CODE=$?
+aws lambda add-permission --function-name arn:aws:lambda:$AWS_REGION:$AWS_ACCOUNT_ID:function:$current_build:$GIT_SHA --source-arn "arn:aws:execute-api:$AWS_REGION:$AWS_ACCOUNT_ID:$AWS_REST_API_ID/*/*/$current_function" --principal apigateway.amazonaws.com --statement-id $STATEMENT_ID --action lambda:InvokeFunction
 echo "Creating deployment"
 aws apigateway create-deployment --rest-api-id $AWS_REST_API_ID --stage-name default
