@@ -163,7 +163,25 @@ The CI/CD system will deploy the application to each environment based on the br
 
 2. Add your git repo in your CircleCI dashboard. This repo has all the CircleCI configuration in `.circleci/config.yml` file.
 
-3. Configure environment variables in your CircleCI project from the dashboard. This example requires the following environment variables:
+3. Create an API Gateway per environment (copy the `REST_API_ID`).
+
+4. Create a Lambda Basic Execution Role ([ref](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html): name it `lambda-basic-role`)
+
+5. Configure environment variables in your CircleCI project from the dashboard. This example requires the following environment variables:
+
+    _AWS_ACCOUNT_ID_
+
+    _AWS_REGION_
+
+    _AWS_ACCESS_KEY_ID_
+
+    _AWS_SECRET_ACCESS_KEY_
+
+    _AWS_DEV_REST_API_ID_
+
+    _AWS_STG_REST_API_ID_
+
+    _AWS_PROD_REST_API_ID_
 
     _HASURA_DEV_ENDPOINT_
 
@@ -177,6 +195,6 @@ The CI/CD system will deploy the application to each environment based on the br
 
     _HASURA_PROD_ACCESS_KEY_
 
-4. Git push or merge PR to master branch. This will deploy to dev environment.
+6. Git push or merge PR to master branch. This will deploy to dev environment.
 
-5. Once you have tested the dev environment, you can promote to staging and prod environments by merging dev with staging and staging with prod respectively.
+7. Once you have tested the dev environment, you can promote to staging and prod environments by merging dev with staging and staging with prod respectively.
