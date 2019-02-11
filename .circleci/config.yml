@@ -28,12 +28,12 @@ jobs:
           name: Create Event Triggers
           command: |
             cd event-triggers
-            .circleci/deploy.sh echo
+            ../.circleci/deploy.sh echo
       - run:
           name: Create Remote schemas
           command: |
             cd remote-schemas
-            .circleci/deploy.sh account-schema
+            ../.circleci/deploy.sh account-schema
       - run:
           name: Apply migrations
           command: |
