@@ -28,8 +28,14 @@ echo "Updating function: $current_build"
 aws lambda update-function-code --function-name "$current_build" --zip-file fileb://./"${current_build}.zip" --no-publish
 echo "Publishing version"
 version=$(aws lambda publish-version --function-name "$current_build" | jq .Version | xargs)
-echo "Creating alias"
-aws lambda create-alias --function-name "$current_build" --description "alias for $GIT_SHA" --function-version $version --name $GIT_SHA
+echo "Check for alias"
+CREATE_ALIAS_EXIT_CODE=0
+aws lambda get-alias --function-name "$current_build" --name $GIT_SHA || CREATE_ALIAS_EXIT_CODE=$?
+if [ $CREATE_ALIAS_EXIT_CODE -ne 0 ]
+then
+    echo "Creating alias"
+    aws lambda create-alias --function-name "$current_build" --description "alias for $GIT_SHA" --function-version $version --name $GIT_SHA
+fi
 echo "Check for API resource"
 parentID=$(aws apigateway get-resources --rest-api-id $AWS_REST_API_ID | jq -r '.items[] | select(.path=="/") | .id')
 resourceID=$(aws apigateway get-resources --rest-api-id $AWS_REST_API_ID | jq -r --arg CURRENTPATH "/$current_function" '.items[] | select(.path==$CURRENTPATH) | .id')
