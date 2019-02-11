@@ -4,8 +4,36 @@ jobs:
     working_directory: ~/project
     docker:
       - image: buildpack-deps:xenial
+    environment:
+      DEPLOY_ENVIRONMENT: dev
     steps:
       - checkout
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo 'export AWS_REST_API_ID="$AWS_DEV_REST_API_ID"' >> $BASH_ENV
+            echo 'export GIT_SHA="$(git rev-parse --short HEAD)"' >> $BASH_ENV
+      # Better to create a docker image for this step
+      - run:
+          name: Install awscli, jq and npm
+          command: |
+            apt-get update
+            apt-get install -y awscli jq zip
+            curl -sL https://deb.nodesource.com/setup_8.x | bash -
+            apt-get install -y nodejs
+            npm install -g npm@5
+            aws configure set default.region $AWS_REGION
+
+      - run:
+          name: Create Event Triggers
+          command: |
+            cd event-triggers
+            .circleci/deploy.sh echo
+      - run:
+          name: Create Remote schemas
+          command: |
+            cd remote-schemas
+            .circleci/deploy.sh account-schema
       - run:
           name: Apply migrations
           command: |
@@ -22,6 +50,8 @@ jobs:
     working_directory: ~/project
     docker:
       - image: buildpack-deps:xenial
+    environment:
+      DEPLOY_ENVIRONMENT: stg
     steps:
       - checkout
       - run:
@@ -40,6 +70,8 @@ jobs:
     working_directory: ~/project
     docker:
       - image: buildpack-deps:xenial
+    environment:
+      DEPLOY_ENVIRONMENT: prod
     steps:
       - checkout
       - run:
