@@ -12,18 +12,19 @@ jobs:
           name: Setup Environment Variables
           command: |
             echo 'export AWS_REST_API_ID="$AWS_DEV_REST_API_ID"' >> $BASH_ENV
+            echo 'export ECS_TASK_FAMILY="$ECS_DEV_TASK_FAMILY"' >> $BASH_ENV
             echo 'export GIT_SHA="$(git rev-parse --short HEAD)"' >> $BASH_ENV
       # Better to create a docker image for this step
       - run:
           name: Install awscli, jq and npm
           command: |
             apt-get update
-            apt-get install -y awscli jq zip
+            apt-get install -y jq zip python3-pip
+            pip3 install awscli --upgrade
             curl -sL https://deb.nodesource.com/setup_8.x | bash -
             apt-get install -y nodejs
             npm install -g npm@5
             aws configure set default.region $AWS_REGION
-
       - run:
           name: Create Event Triggers
           command: |
