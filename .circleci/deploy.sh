@@ -84,8 +84,16 @@ if [ -f .url_env ]; then
         exit 1
     fi
     FULL_URL="https://${AWS_REST_API_ID}.execute-api.${AWS_REGION}.amazonaws.com/default/$current_function"
-    CONTAINER_DEF=$(aws ecs describe-task-definition --task-definition ${TASK_ARN} | jq -r --arg ENV_VAR "$ENV_VAR" --arg FULL_URL "$FULL_URL" '.taskDefinition.containerDefinitions[0].environment+=[{"name": $ENV_VAR, "value": $FULL_URL}] | .taskDefinition.containerDefinitions')
-    aws ecs register-task-definition --family $AWS_TASK_FAMILY --memory 512 --container-definitions "${CONTAINER_DEF}"
+    TASK_DEF=$(aws ecs describe-task-definition --task-definition ${TASK_ARN} | jq  '.taskDefinition')
+    CONTAINER_DEF=$(echo $TASK_DEF | jq -r --arg ENV_VAR "$ENV_VAR" --arg FULL_URL "$FULL_URL" '.containerDefinitions[0].environment+=[{"name": $ENV_VAR, "value": $FULL_URL}] | .containerDefinitions')
+    MEMORY_DEF=$(echo $TASK_DEF | jq -r '.memory')
+    NETWORK_MODE=$(echo $TASK_DEF | jq -r '.networkMode')
+    EXECUTION_ROLE_ARN=$(echo $TASK_DEF | jq -r '.executionRoleArn')
+    REQUIRES_COMPATIBILITIES=$(echo $TASK_DEF | jq -r '.requiresCompatibilities')
+    CPU_DEF=$(echo $TASK_DEF | jq -r '.cpu')
+
+    revision=$(aws ecs register-task-definition --family "$AWS_TASK_FAMILY" --memory "$MEMORY_DEF"  --network-mode "$NETWORK_MODE" --execution-role-arn "$EXECUTION_ROLE_ARN" --requires-compatibilities "${REQUIRES_COMPATIBILITIES}" --cpu "$CPU_DEF" --container-definitions "${CONTAINER_DEF}" | jq '.taskDefinition.revision')
+    aws ecs update-service --cluster $AWS_HASURA_ECS_CLUSTER --service hasura --task-definition $AWS_TASK_FAMILY:$revision
 else
     echo "could not find .url_env, cannot update Hasura env with API url"
     exit 1
