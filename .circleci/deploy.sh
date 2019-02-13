@@ -76,7 +76,7 @@ if [ -f .url_env ]; then
     echo "found .url_env file"
     ENV_VAR=$(<.url_env)
     echo "Hasura env to be updated: $ENV_VAR"
-    TASK_ARN=$(aws ecs list-task-definitions --family-prefix $ECS_TASK_FAMILY --sort DESC --max-items 1 | jq -r '.taskDefinitionArns[]')
+    TASK_ARN=$(aws ecs list-task-definitions --family-prefix $AWS_TASK_FAMILY --sort DESC --max-items 1 | jq -r '.taskDefinitionArns[]')
     if [ -z "$TASK_ARN" ]
     then
         echo "Cannot find any ECS Task Definition revisions"
@@ -84,7 +84,7 @@ if [ -f .url_env ]; then
     fi
     FULL_URL="https://${AWS_REST_API_ID}.execute-api.${AWS_REGION}.amazonaws.com/default/$current_function"
     CONTAINER_DEF=$(aws ecs describe-task-definition --task-definition ${TASK_ARN} | jq -r --arg ENV_VAR "$ENV_VAR" --arg FULL_URL "$FULL_URL" '.taskDefinition.containerDefinitions[0].environment+=[{"name": $ENV_VAR, "value": $FULL_URL}] | .taskDefinition.containerDefinitions')
-    aws ecs register-task-definition --family $ECS_TASK_FAMILY --memory 512 --container-definitions "${CONTAINER_DEF}"
+    aws ecs register-task-definition --family $AWS_TASK_FAMILY --memory 512 --container-definitions "${CONTAINER_DEF}"
 else
     echo "could not find .url_env, cannot update Hasura env with API url"
     exit 1
