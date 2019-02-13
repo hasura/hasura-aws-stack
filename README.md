@@ -114,10 +114,10 @@ $ docker-compose up -d
 In project directory:
 
 $ cd remote-schemas
-$ mkdir account-schema
+$ mkdir hello-schema
 ```
 
-2. Write your graphql functions in `account-schema/index.js`. Make sure you export the typedefs and resolvers. Ref: [account](remote-schemas/account-schema/index.js)
+2. Write your graphql functions in `hello-schema/index.js`. Make sure you export the typedefs and resolvers. Ref: [hello](remote-schemas/hello-schema/index.js)
 
 3. Add corresponding server setup in local development API server. Ref: [localDevelopment](local/localDevelopment.js)
 
