@@ -34,7 +34,7 @@ jobs:
           name: Create Remote schemas
           command: |
             cd remote-schemas
-            ../.circleci/deploy.sh account-schema
+            ../.circleci/deploy.sh hello-schema
       - run:
           name: Apply migrations
           command: |

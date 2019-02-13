@@ -12,9 +12,6 @@
   "dependencies": {
     "apollo-server-lambda": "^2.1.0",
     "graphql": "^0.13.1",
-    "graphql-tag": "^2.10.1",
-    "pg": "^7.6.0",
-    "pg-hstore": "^2.3.2",
-    "sequelize": "^4.41.0"
+    "graphql-tag": "^2.10.1"
   }
 }
