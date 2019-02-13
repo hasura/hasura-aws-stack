@@ -12,7 +12,7 @@ jobs:
           name: Setup Environment Variables
           command: |
             echo 'export AWS_REST_API_ID="$AWS_DEV_REST_API_ID"' >> $BASH_ENV
-            echo 'export ECS_TASK_FAMILY="$ECS_DEV_TASK_FAMILY"' >> $BASH_ENV
+            echo 'export AWS_TASK_FAMILY="$AWS_DEV_TASK_FAMILY"' >> $BASH_ENV
             echo 'export GIT_SHA="$(git rev-parse --short HEAD)"' >> $BASH_ENV
       # Better to create a docker image for this step
       - run:
