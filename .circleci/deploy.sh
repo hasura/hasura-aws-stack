@@ -48,21 +48,21 @@ then
 fi
 echo "Check for Resource Method"
 GET_METHOD_EXIT_CODE=0
-aws apigateway get-method --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method ANY || GET_METHOD_EXIT_CODE=$?
+aws apigateway get-method --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method POST || GET_METHOD_EXIT_CODE=$?
 if [ $GET_METHOD_EXIT_CODE -ne 0 ]
 then
     echo "Creating Resource Method"
-    aws apigateway put-method --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method ANY --authorization-type NONE
+    aws apigateway put-method --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method POST --authorization-type NONE
 fi
 echo "Check for integration"
 GET_INTEGRATION_EXIT_CODE=0
-aws apigateway get-integration --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method ANY || GET_INTEGRATION_EXIT_CODE=$?
+aws apigateway get-integration --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method POST || GET_INTEGRATION_EXIT_CODE=$?
 if [ $GET_INTEGRATION_EXIT_CODE -ne 0 ]
 then
     echo "Creating Integration"
-    aws apigateway put-integration --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method ANY --type AWS_PROXY --integration-http-method ANY --uri arn:aws:apigateway:$AWS_REGION:lambda:path/2015-03-31/functions/$functionArn:$GIT_SHA/invocations
+    aws apigateway put-integration --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method POST --type AWS_PROXY --integration-http-method POST --uri arn:aws:apigateway:$AWS_REGION:lambda:path/2015-03-31/functions/$functionArn:$GIT_SHA/invocations
 fi
-aws apigateway update-integration --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method ANY --patch-operations "[ {\"op\" : \"replace\",\"path\" : \"/uri\",\"value\" : \"arn:aws:apigateway:$AWS_REGION:lambda:path/2015-03-31/functions/$functionArn:$GIT_SHA/invocations\"} ]"
+aws apigateway update-integration --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method POST --patch-operations "[ {\"op\" : \"replace\",\"path\" : \"/uri\",\"value\" : \"arn:aws:apigateway:$AWS_REGION:lambda:path/2015-03-31/functions/$functionArn:$GIT_SHA/invocations\"} ]"
 echo "Delete API Gateway permission if exists"
 REMOVE_PERMISSION_EXIT_CODE=0
 STATEMENT_ID="${GIT_SHA}_${current_build}"
