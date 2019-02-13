@@ -12,8 +12,9 @@
 
 1. Go to ECS in AWS Console.
 2. Create a ECS cluster on Fargate with required specs.
-3. Create a Task Definition with Hasura GraphQL Engine container and environment variables.
-4. Add the Task to your ECS cluster as a service.
+3. Create a service called `hasura` in your cluster.
+4. Create a Task Definition with Hasura GraphQL Engine container and environment variables.
+5. Add the Task to your hasura service.
 
 If you are want to use multiple-instances/auto-scale, you will need to choose an ALB as the load balancer.
 
@@ -179,6 +180,8 @@ The CI/CD system will deploy the application to each environment based on the br
 
     _AWS_DEV_REST_API_ID_
 
+    _AWS_DEV_HASURA_ECS_CLUSTER_
+
     _AWS_DEV_TASK_FAMILY_
 
     _HASURA_DEV_ENDPOINT_
@@ -187,6 +190,8 @@ The CI/CD system will deploy the application to each environment based on the br
 
     _AWS_STG_REST_API_ID_
 
+    _AWS_STG_HASURA_ECS_CLUSTER_
+
     _AWS_STG_TASK_FAMILY_
 
     _HASURA_STG_ENDPOINT_
@@ -194,6 +199,8 @@ The CI/CD system will deploy the application to each environment based on the br
     _HASURA_STG_ACCESS_KEY_
 
     _AWS_PROD_REST_API_ID_
+
+    _AWS_PROD_HASURA_ECS_CLUSTER_
 
     _AWS_PROD_TASK_FAMILY_
 

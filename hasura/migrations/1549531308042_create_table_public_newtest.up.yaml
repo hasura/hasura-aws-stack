@@ -1,8 +1,0 @@
-- args:
-    sql: CREATE TABLE "public"."newtest"("id" serial NOT NULL, "value" integer NOT
-      NULL, PRIMARY KEY ("id") );
-  type: run_sql
-- args:
-    name: newtest
-    schema: public
-  type: add_existing_table_or_view
