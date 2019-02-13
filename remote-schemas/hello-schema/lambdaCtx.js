@@ -1,6 +1,6 @@
 const ApolloServerLambda = require('apollo-server-lambda').ApolloServer;
-const typeDefs = require(./index).typeDefs;
-const resolvers = require(./index).resolvers;
+const typeDefs = require('./index').typeDefs;
+const resolvers = require('./index').resolvers;
 
 const server = new ApolloServerLambda({
     typeDefs,
