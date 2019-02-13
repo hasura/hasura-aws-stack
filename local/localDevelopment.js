@@ -23,8 +23,8 @@ var server = app.listen(8081, function () {
     console.log("server listening on port 8081");
 });
 
-const accountSchema = new ApolloServer({ typeDefs, resolvers });
+const helloSchema = new ApolloServer({ typeDefs, resolvers });
 
-accountSchema.listen().then(({ url }) => {
-    console.log(`Account schema ready at ${url}`);
+helloSchema.listen().then(({ url }) => {
+    console.log(`hello schema ready at ${url}`);
 });
