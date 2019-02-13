@@ -165,7 +165,7 @@ The CI/CD system will deploy the application to each environment based on the br
 
 3. Create an API Gateway per environment (copy the `REST_API_ID`).
 
-4. Create a Lambda Basic Execution Role ([ref](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html): name it `lambda-basic-role`)
+4. Create a Lambda Basic Execution Role (name it `lambda-basic-role`): [ref](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)
 
 5. Configure environment variables in your CircleCI project from the dashboard. This example requires the following environment variables:
 
