@@ -5,7 +5,7 @@ const app = express();
 
 const { echo } = require('../event-triggers/echo');
 
-const { typeDefs, resolvers } = require('../remote-schemas/account-schema');
+const { typeDefs, resolvers } = require('../remote-schemas/hello-schema');
 
 app.use(bodyParser.json());
 

@@ -2,6 +2,6 @@
     definition:
       forward_client_headers: true
       headers: []
-      url_from_env: REMOTE_SCHEMA_ACCOUNT_URL
-    name: account
+      url_from_env: REMOTE_SCHEMA_HELLO_URL
+    name: hello
   type: add_remote_schema
