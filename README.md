@@ -179,17 +179,23 @@ The CI/CD system will deploy the application to each environment based on the br
 
     _AWS_DEV_REST_API_ID_
 
-    _AWS_STG_REST_API_ID_
-
-    _AWS_PROD_REST_API_ID_
+    _AWS_DEV_TASK_FAMILY_
 
     _HASURA_DEV_ENDPOINT_
 
     _HASURA_DEV_ACCESS_KEY_
 
+    _AWS_STG_REST_API_ID_
+
+    _AWS_STG_TASK_FAMILY_
+
     _HASURA_STG_ENDPOINT_
 
     _HASURA_STG_ACCESS_KEY_
+
+    _AWS_PROD_REST_API_ID_
+
+    _AWS_PROD_TASK_FAMILY_
 
     _HASURA_PROD_ENDPOINT_
 
