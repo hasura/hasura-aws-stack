@@ -42,7 +42,6 @@ jobs:
             cd nextjs-serverless
             npm ci
             npm run build
-            echo $GIT_SHA
             ../.circleci/deploy_next.sh
       
       - run:
