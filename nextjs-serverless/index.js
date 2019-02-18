@@ -7,7 +7,7 @@ const app = express();
 
 app.get('/', require('./.next/serverless/pages/index').render)
 app.get('*', (req, res) => {
-  const { pathname } = parse(req.url, true)
+  const  pathname  = req.url
   try {
     require(`./.next/serverless/pages${pathname}`).render(req, res)
   } catch (err) {
