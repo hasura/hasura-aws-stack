@@ -37,6 +37,14 @@ jobs:
             cd remote-schemas
             ../.circleci/deploy.sh hello-schema
       - run:
+          name: Create Nextjs Serverless
+          command: |
+            cd nextjs-serverless
+            npm ci
+            npm run build
+            ../.circleci/deploy_next.sh
+      
+      - run:
           name: Apply migrations
           command: |
             echo "Installing hasura-cli"
@@ -48,6 +56,7 @@ jobs:
                hasura metadata apply --project hasura --endpoint $HASURA_DEV_ENDPOINT --access-key $HASURA_DEV_ACCESS_KEY
             fi
             echo "Finished"
+      
   build_stg:
     working_directory: ~/project
     docker:
