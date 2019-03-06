@@ -39,10 +39,10 @@ jobs:
       - run:
           name: Create Nextjs Serverless
           command: |
-            cd nextjs-serverless
+            cd custom/nextjs-serverless
             npm ci
             npm run build
-            ../.circleci/deploy_next.sh
+            ../../.circleci/deploy_next.sh
       
       - run:
           name: Apply migrations
