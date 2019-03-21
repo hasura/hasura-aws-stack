@@ -5,12 +5,13 @@ set -o errexit
 set -o pipefail
 
 zip -r "handler.zip" .
-for entry in $(ls ./.next/serverless/pages/ | grep -v "^_")
+pages_path=./.next/serverless/pages
+for entry in $(ls $pages_path | grep -v "^_")
 do
     current_function=$(basename $entry .js)
     current_build="${current_function}_${DEPLOY_ENVIRONMENT}"
 
-    if [[ -f $entry ]]; then
+    if [[ -f $pages_path/$entry ]]; then
         echo "Checking if function $current_build already exists"
         functionArn=$(aws lambda list-functions | jq -r --arg CURRENTFUNCTION "$current_build" '.Functions[] | select(.FunctionName==$CURRENTFUNCTION) | .FunctionArn')
         if [ -z "$functionArn" ]
@@ -46,7 +47,7 @@ do
         resourceID=$(aws apigateway create-resource --rest-api-id $AWS_REST_API_ID --parent-id $parentID --path-part "$current_function" | jq -r '.id')
         echo "Created resource with id: $resourceID"
     fi
-    if [[ -f $entry ]]; then
+    if [[ -f $pages_path/$entry ]]; then
         echo "Check for Resource Method"
         GET_METHOD_EXIT_CODE=0
         aws apigateway get-method --rest-api-id $AWS_REST_API_ID --resource-id $resourceID --http-method GET || GET_METHOD_EXIT_CODE=$?
