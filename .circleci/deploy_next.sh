@@ -17,6 +17,7 @@ do
         current_build="${current_function}_${DEPLOY_ENVIRONMENT}"
     else
         current_build="$(echo ${root_path#"/"} | tr / _)${current_function}_${DEPLOY_ENVIRONMENT}"
+        root_path=${root_path%"/"}
     fi
     current_path=$pages_path/$entry
 
@@ -46,9 +47,8 @@ do
             aws lambda create-alias --function-name "$current_build" --description "alias for $GIT_SHA" --function-version $version --name $GIT_SHA
         fi
     fi
-    echo "Check for API resource"
     parentID=$(aws apigateway get-resources --rest-api-id $AWS_REST_API_ID | jq -r --arg CURRENTPATH "${root_path}" '.items[] | select(.path==$CURRENTPATH) | .id')
-    resourceID=$(aws apigateway get-resources --rest-api-id $AWS_REST_API_ID | jq -r --arg CURRENTPATH "${root_path%"/"}/$current_function" '.items[] | select(.path==$CURRENTPATH) | .id')
+    resourceID=$(aws apigateway get-resources --rest-api-id $AWS_REST_API_ID | jq -r --arg CURRENTPATH "$current_function" --arg PARENTID "$parentID" '.items[] | select((.pathPart==$CURRENTPATH) and .parentId==$PARENTID) | .id')
     echo "parentID: $parentID, resourceID: $resourceID"
     if [ -z "$resourceID" ]
     then
