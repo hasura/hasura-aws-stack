@@ -27,23 +27,15 @@ jobs:
             npm install -g npm@5
             aws configure set default.region $AWS_REGION
       - run:
-          name: Create Event Triggers
-          command: |
-            cd event-triggers
-            ../.circleci/deploy.sh echo
-      - run:
-          name: Create Remote schemas
-          command: |
-            cd remote-schemas
-            ../.circleci/deploy.sh hello-schema
-      - run:
           name: Create Nextjs Serverless
           command: |
             cd custom/nextjs-serverless
-            npm ci
+            NODE_ENV=development npm ci
             npm run build
+            rm -rf node_modules
+            NODE_ENV=production npm ci
+            zip -r "handler.zip" .
             ../../.circleci/deploy_next.sh
-      
       - run:
           name: Apply migrations
           command: |

@@ -7,7 +7,6 @@ set -o pipefail
 default_path=./.next/serverless/pages
 default_root_path=/
 
-zip -r "handler.zip" .
 pages_path="${1-$default_path}"
 root_path="${2-$default_root_path}"
 for entry in $(ls $pages_path | grep -v "^_")
