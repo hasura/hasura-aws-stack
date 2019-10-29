@@ -3,7 +3,7 @@
 ## Stack
 
 - Hasura on ECS Fargate (auto-scale)
-- RDS Postgres
+- Aurora Postgres or RDS Postgres 
 - Lambdas for remote schemas and event triggers
 - Docker for local dev
 - CircleCI for CI/CD
